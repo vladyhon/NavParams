@@ -22,7 +22,7 @@ jobs:
       - name: Debug environment variable
         run: |
           echo "GPG_SIGNING_KEY length: ${#GPG_SIGNING_KEY}"
-          echo "GPG_SIGNING_PASSWORD length: ${#GPG_SIGNING_PASSWORD}"
+          echo "GPG_SIGNING_PASSWORD length: ${#GPG_SIGNING_PASSWORD} test"
       - name: Checkout
         uses: actions/checkout@v4
 
