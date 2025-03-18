@@ -40,7 +40,7 @@ publishing {
 
             pom {
                 name.set("NavParams")
-                description.set("A simple Kotlin library with Flow support")
+                description.set("A simple Kotlin library that enables seamless navigation parameter passing in Jetpack Compose and Android Navigation, built with Kotlin Flow support.")
                 url.set("https://github.com/vladyhon/NavParams")
                 licenses {
                     license {
