@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'feature/release-library-sonar'
 
 jobs:
   ci:
@@ -18,6 +19,10 @@ jobs:
       SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
     steps:
+      - name: Debug environment variable
+        run: |
+          echo "GPG_SIGNING_KEY length: ${#GPG_SIGNING_KEY}"
+          echo "GPG_SIGNING_PASSWORD length: ${#GPG_SIGNING_PASSWORD}"
       - name: Checkout
         uses: actions/checkout@v4
 
