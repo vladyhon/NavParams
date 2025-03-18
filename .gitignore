@@ -31,3 +31,9 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build

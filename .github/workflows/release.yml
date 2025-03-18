@@ -1,0 +1,30 @@
+name: Release to maven central staging
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    runs-on: macos-latest
+    needs: ci
+    env:
+      GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+      GPG_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}
+      SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
+      SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Publish to Sonatype Staging
+        run: ./gradlew publishReleasePublicationToSonatypeStagingRepository -PGPG_SIGNING_REQUIRED --no-configuration-cache
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
