@@ -1,20 +1,25 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJvm
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktlint)
-    `maven-publish`
+    id("com.vanniktech.maven.publish") version "0.31.0-rc2"
     signing
 }
 
-group = "io.github.vladyhon"
-version = "0.1.0"
+repositories {
+    mavenCentral()
+}
 
 kotlin {
     explicitApi()
     jvmToolchain(17)
 }
 
-repositories {
-    mavenCentral()
+ktlint {
+    version.set("0.50.0")
 }
 
 dependencies {
@@ -26,66 +31,20 @@ dependencies {
     testImplementation(libs.turbine)
 }
 
-ktlint {
-    version.set("0.50.0")
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            from(components["kotlin"])
-            groupId = "io.github.vladyhon"
-            artifactId = "NavParams"
-            version = "0.1.0"
-
-            pom {
-                name.set("NavParams")
-                description.set("A simple Kotlin library that enables seamless navigation parameter passing in Jetpack Compose and Android Navigation, built with Kotlin Flow support.")
-                url.set("https://github.com/vladyhon/NavParams")
-                licenses {
-                    license {
-                        name.set("MIT")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("vladyhon")
-                        name.set("Vladyslav H.")
-                        email.set("vladyhondev@gmail.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/vladyhon/NavParams.git")
-                    developerConnection.set("scm:git:ssh://github.com:vladyhon/NavParams.git")
-                    url.set("https://github.com/vladyhon/NavParams")
-                }
-            }
-        }
-    }
-    repositories {
-        maven("https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-            name = "SonatypeSnapshot"
-            credentials {
-                username = System.getenv("SONATYPE_USER")
-                password = System.getenv("SONATYPE_PASSWORD")
-            }
-        }
-        maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            name = "SonatypeStaging"
-            credentials {
-                username = System.getenv("SONATYPE_USER")
-                password = System.getenv("SONATYPE_PASSWORD")
-            }
-        }
-    }
+mavenPublishing {
+    configure(
+        KotlinJvm(
+            javadocJar = JavadocJar.Javadoc(),
+            sourcesJar = true,
+        )
+    )
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 }
 
 signing {
     val signingKey = System.getenv("GPG_SIGNING_KEY")
     val signingPassword = System.getenv("GPG_SIGNING_PASSWORD")
-    isRequired = hasProperty("GPG_SIGNING_REQUIRED")
-    if (isRequired) useInMemoryPgpKeys(signingKey, signingPassword)
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
 }
 
@@ -96,8 +55,4 @@ signing {
 tasks.withType<AbstractPublishToMaven>().configureEach {
     val signingTasks = tasks.withType<Sign>()
     mustRunAfter(signingTasks)
-}
-
-tasks.withType<Jar>().configureEach {
-    archiveBaseName.set("NavParams")
 }
