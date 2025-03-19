@@ -24,8 +24,8 @@ jobs:
 
       - name: Import GPG Key
         run: |
-          echo "${{ secrets.GPG_SIGNING_KEY_BASE64 }}" | base64 --decode > /tmp/secring.gpg
-          gpg --import /tmp/secring.gpg
+          echo "${{ secrets.GPG_SIGNING_KEY_BASE64 }}" | base64 --decode > secring.gpg
+          gpg --import secring.gpg
         env:
           GPG_TTY: $(tty)
 
