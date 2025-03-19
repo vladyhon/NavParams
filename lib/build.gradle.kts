@@ -36,7 +36,7 @@ mavenPublishing {
         KotlinJvm(
             javadocJar = JavadocJar.Javadoc(),
             sourcesJar = true,
-        )
+        ),
     )
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 }
