@@ -22,5 +22,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Configure Gradle Properties
+        run: |
+            touch ~/.gradle/gradle.properties
+            touch ~/.gradle/secring.gpg
+          
+            echo "mavenCentralUsername=${{ secrets.SONATYPE_USERNAME }}" >> ~/.gradle/gradle.properties
+            echo "mavenCentralPassword=${{ secrets.SONATYPE_PASSWORD }}" >> ~/.gradle/gradle.properties
+            echo "signing.keyId=${{ secrets.GPG_SIGNING_KEY_ID }}" >> ~/.gradle/gradle.properties
+            echo "signing.password=${{ secrets.GPG_SIGNING_PASSWORD }}" >> ~/.gradle/gradle.properties
+            echo "${{ secrets.GPG_SIGNING_KEY }}" >> ~/.gradle/secring.gpg
+            echo "signing.secretKeyRingFile=~/.gradle/secring.gpg" >> ~/.gradle/gradle.properties
+        shell: bash
+
+      - name: Debug Gradle Properties
+        run: |
+          cat ~/.gradle/gradle.properties
+        shell: bash
+
+
       - name: Publish to Sonatype Snapshot
         run: ./gradlew publishToMavenCentral --no-configuration-cache
