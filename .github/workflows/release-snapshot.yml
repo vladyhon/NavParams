@@ -23,7 +23,6 @@ jobs:
             touch ~/.gradle/gradle.properties
           
             echo "${{ secrets.GPG_SIGNING_KEY_BASE64 }}" | base64 --decode > ~/.gradle/secring.gpg
-            gpg --import ~/.gradle/secring.gpg
           
             echo "mavenCentralUsername=${{ secrets.SONATYPE_USERNAME }}" >> ~/.gradle/gradle.properties
             echo "mavenCentralPassword=${{ secrets.SONATYPE_PASSWORD }}" >> ~/.gradle/gradle.properties
