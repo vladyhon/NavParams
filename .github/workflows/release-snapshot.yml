@@ -24,6 +24,7 @@ jobs:
 
       - name: Configure Gradle Properties
         run: |
+            mkdir -p ~/.gradle
             touch ~/.gradle/gradle.properties
             touch ~/.gradle/secring.gpg
           
