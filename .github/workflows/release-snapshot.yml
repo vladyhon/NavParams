@@ -28,7 +28,7 @@ jobs:
             echo "mavenCentralPassword=${{ secrets.SONATYPE_PASSWORD }}" >> ~/.gradle/gradle.properties
             echo "signing.keyId=${{ secrets.GPG_SIGNING_KEY_ID }}" >> ~/.gradle/gradle.properties
             echo "signing.password=${{ secrets.GPG_SIGNING_PASSWORD }}" >> ~/.gradle/gradle.properties
-            echo "signing.secretKeyRingFile=${user.home}/.gradle/secring.gpg" >> ~/.gradle/gradle.properties
+            echo "signing.secretKeyRingFile=$HOME/.gradle/secring.gpg" >> ~/.gradle/gradle.properties
         shell: bash
 
       - name: Publish to Sonatype Snapshot
