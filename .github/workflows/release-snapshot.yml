@@ -2,9 +2,8 @@ name: Release to maven central snapshots
 
 on:
   push:
-    branches:
-      - 'main'
-      - 'bugfix/workflows'
+    branches: ['main', 'bugfix/workflows']
+    paths: ['!**/.github/workflows/**']
 
 jobs:
   ci:
@@ -14,23 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: ci
     steps:
-      - name: Check for Changes in `lib/`
-        id: check_changes
-        run: |
-          if git diff --quiet HEAD^ HEAD -- lib/; then
-            echo "No changes in lib, skipping publish."
-            echo "SKIP_PUBLISH=true" >> $GITHUB_ENV
-          else
-            echo "Changes detected in lib, proceeding with publish."
-            echo "SKIP_PUBLISH=false" >> $GITHUB_ENV
-          fi
-
       - name: Checkout
-        if: env.SKIP_PUBLISH == 'false'
         uses: actions/checkout@v4
 
       - name: Configure Gradle Properties
-        if: env.SKIP_PUBLISH == 'false'
         run: |
             mkdir -p ~/.gradle
             touch ~/.gradle/gradle.properties
@@ -45,5 +31,4 @@ jobs:
         shell: bash
 
       - name: Publish to Sonatype Snapshot
-        if: env.SKIP_PUBLISH == 'false'
         run: ./gradlew publishToMavenCentral --no-configuration-cache
