@@ -2,8 +2,10 @@ name: Release to maven central snapshots
 
 on:
   push:
-    branches: ['main', 'bugfix/workflows']
-    paths: ['!**/.github/workflows/**']
+    branches:
+      - 'main'
+    paths:
+      - '!**/.github/workflows/**'
 
 jobs:
   ci:
