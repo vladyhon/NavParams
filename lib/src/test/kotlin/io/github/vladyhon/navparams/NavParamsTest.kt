@@ -18,7 +18,7 @@ internal class NavParamsTest {
 
     @Test
     fun `subscribe to one parameter with type String expect no values`() = testScope.runTest {
-        val navParams = NavParams.create()
+        val navParams = NavParams()
 
         navParams.subscribe<String>(parameterName1).test {
             expectNoEvents()
@@ -27,7 +27,7 @@ internal class NavParamsTest {
 
     @Test
     fun `subscribe to one parameter with type String until receives value`() = testScope.runTest {
-        val navParams = NavParams.create()
+        val navParams = NavParams()
 
         launch {
             navParams.add(parameterName1, "12345")
@@ -42,7 +42,7 @@ internal class NavParamsTest {
 
     @Test
     fun `subscribe to one parameter with type String until receives 2 value`() = testScope.runTest {
-        val navParams = NavParams.create()
+        val navParams = NavParams()
 
         launch {
             navParams.add(parameterName1, "12345")
@@ -66,7 +66,7 @@ internal class NavParamsTest {
 
     @Test
     fun `subscribe to two parameters with type String and Int until receives values`() = testScope.runTest {
-        val navParams = NavParams.create()
+        val navParams = NavParams()
 
         launch {
             navParams.add(parameterName1, "12345")
@@ -86,7 +86,7 @@ internal class NavParamsTest {
     @Test
     fun `subscribe to three parameters with type String, Int and Enum until receives values`() =
         testScope.runTest {
-            val navParams = NavParams.create()
+            val navParams = NavParams()
 
             launch {
                 navParams.add(parameterName3, TestEnum.Test3)

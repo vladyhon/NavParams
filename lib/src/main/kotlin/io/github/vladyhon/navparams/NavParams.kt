@@ -3,8 +3,10 @@ package io.github.vladyhon.navparams
 import io.github.vladyhon.navparams.internal.NavParamsImpl
 import kotlinx.coroutines.flow.Flow
 
+public fun NavParams(): NavParams = NavParamsImpl()
+
 public interface NavParams {
-    public suspend fun <T> add(name: String, value: T)
+    public suspend fun <T> add(name: String, value: T): Result<Unit>
     public fun <A : Any> subscribe(name: String): Flow<ConsumableNavParameter<A>>
     public fun <A : Any, B : Any> subscribe(
         name1: String,
@@ -16,8 +18,4 @@ public interface NavParams {
         name2: String,
         name3: String,
     ): Flow<Triple<ConsumableNavParameter<A>, ConsumableNavParameter<B>, ConsumableNavParameter<C>>>
-
-    public companion object {
-        public fun create(): NavParams = NavParamsImpl()
-    }
 }
