@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'feature/release-library-sonar'
 
 jobs:
   ci:
