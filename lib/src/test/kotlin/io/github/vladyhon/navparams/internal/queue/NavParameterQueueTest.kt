@@ -15,7 +15,7 @@ internal class NavParameterQueueTest {
 
     @Test
     fun `get and consume value, after queue should be empty`() = testScope.runTest {
-        val queue = NavParameterQueue.create<String>()
+        val queue = NavParameterQueue<String>()
 
         launch {
             queue.emit("12345")
@@ -31,7 +31,7 @@ internal class NavParameterQueueTest {
 
     @Test
     fun `get without consume value, after queue should not be empty`() = testScope.runTest {
-        val queue = NavParameterQueue.create<String>()
+        val queue = NavParameterQueue<String>()
 
         launch {
             queue.emit("12345")
@@ -48,7 +48,7 @@ internal class NavParameterQueueTest {
 
     @Test
     fun `emit 2 values, get and consume values, after queue should be empty`() = testScope.runTest {
-        val queue = NavParameterQueue.create<String>()
+        val queue = NavParameterQueue<String>()
 
         launch {
             queue.emit("12345")
@@ -72,7 +72,7 @@ internal class NavParameterQueueTest {
     @Test
     fun `emit 2 values, get without consume values, after queue should not be empty`() =
         testScope.runTest {
-            val queue = NavParameterQueue.create<String>()
+            val queue = NavParameterQueue<String>()
 
             launch {
                 queue.emit("12345")
